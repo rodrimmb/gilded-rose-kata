@@ -19,57 +19,66 @@ class GildedRose {
     }
 
     public void updateQuality() {
-        for (int i = 0; i < items.length; i++) {
-            if (!isLegendaryItem(items[i])) {
-                items[i].passDay();
+        for (Item item : items) {
+            if (!isLegendaryItem(item)) {
+                item.passDay();
             }
 
-            if (isDecreasedQualityItem(items[i]) && isOverMinimumQuality(items[i])) {
-                if (!isLegendaryItem(items[i])) {
-                    items[i].decreaseQuality();
-                }
-            } else {
-                if (isLessThanMaximumQuality(items[i])) {
-                    items[i].increaseQuality();
-
-                    if (items[i].getName().equals(BACKSTAGE)) {
-                        if (items[i].getSellIn() < BACKSTAGE_INCREMENT_2_QUALITY_LESS_THAN_10_DAYS) {
-                            if (isLessThanMaximumQuality(items[i])) {
-                                items[i].increaseQuality();
-                            }
-                        }
-
-                        if (items[i].getSellIn() < BACKSTAGE_INCREMENT_3_QUALITY_LESS_THAN_5_DAYS) {
-                            if (isLessThanMaximumQuality(items[i])) {
-                                items[i].increaseQuality();
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (items[i].isPastSellInDate()) {
-                if (!items[i].getName().equals(AGED_BRIE)) {
-                    if (!items[i].getName().equals(BACKSTAGE)) {
-                        if (isOverMinimumQuality(items[i])) {
-                            if (!isLegendaryItem(items[i])) {
-                                items[i].decreaseQuality();
-                            }
-                        }
-                    } else {
-                        items[i].dropQualityTo0();
-                    }
-                } else {
-                    if (isLessThanMaximumQuality(items[i])) {
-                        items[i].increaseQuality();
-                    }
-                }
+            switch (item.getName()) {
+                case AGED_BRIE:
+                    updateAgedBrieQuality(item);
+                    break;
+                case BACKSTAGE:
+                    updateBackstageQuality(item);
+                    break;
+                case SULFURAS:
+                    break;
+                default:
+                    updateQualityAsDefault(item);
             }
         }
     }
 
-    private boolean isDecreasedQualityItem(Item item) {
-        return !item.getName().equals(AGED_BRIE) && !item.getName().equals(BACKSTAGE);
+    private void updateQualityAsDefault(Item item) {
+        if(isOverMinimumQuality(item)) {
+            item.decreaseQuality();
+        }
+        if (item.isPastSellInDate() && isOverMinimumQuality(item)) {
+            item.decreaseQuality();
+        }
+    }
+
+    private void updateBackstageQuality(Item item) {
+        if (isLessThanMaximumQuality(item)) {
+            item.increaseQuality();
+
+            if (item.getName().equals(BACKSTAGE)) {
+                if (item.getSellIn() < BACKSTAGE_INCREMENT_2_QUALITY_LESS_THAN_10_DAYS) {
+                    if (isLessThanMaximumQuality(item)) {
+                        item.increaseQuality();
+                    }
+                }
+
+                if (item.getSellIn() < BACKSTAGE_INCREMENT_3_QUALITY_LESS_THAN_5_DAYS) {
+                    if (isLessThanMaximumQuality(item)) {
+                        item.increaseQuality();
+                    }
+                }
+            }
+        }
+
+        if (item.isPastSellInDate()) {
+            item.dropQualityTo0();
+        }
+    }
+
+    private void updateAgedBrieQuality(Item item) {
+        if (isLessThanMaximumQuality(item)) {
+            item.increaseQuality();
+        }
+        if (item.isPastSellInDate() && isLessThanMaximumQuality(item)) {
+            item.increaseQuality();
+        }
     }
 
     private boolean isLegendaryItem(Item item) {
