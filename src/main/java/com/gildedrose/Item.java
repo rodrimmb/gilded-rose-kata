@@ -42,6 +42,10 @@ public class Item {
         sellIn -= 1;
     }
 
+    public boolean isPastSellInDate() {
+        return sellIn < 0;
+    }
+
     @Override
     public String toString() {
         return this.name + ", " + this.sellIn + ", " + this.quality;

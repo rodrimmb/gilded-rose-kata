@@ -45,7 +45,7 @@ class GildedRose {
                 items[i].passDay();
             }
 
-            if (items[i].getSellIn() < 0) {
+            if (items[i].isPastSellInDate()) {
                 if (!items[i].getName().equals(AGED_BRIE)) {
                     if (!items[i].getName().equals(BACKSTAGE)) {
                         if (items[i].getQuality() > 0) {
