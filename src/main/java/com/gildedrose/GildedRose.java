@@ -9,6 +9,9 @@ class GildedRose {
     private static final int MAX_QUALITY = 50;
     private static final int MINUMUM_QUALITY = 0;
 
+    private static final int BACKSTAGE_INCREMENT_2_QUALITY_LESS_THAN_10_DAYS = 10;
+    private static final int BACKSTAGE_INCREMENT_3_QUALITY_LESS_THAN_5_DAYS = 5;
+
     Item[] items;
 
     public GildedRose(Item[] items) {
@@ -17,34 +20,32 @@ class GildedRose {
 
     public void updateQuality() {
         for (int i = 0; i < items.length; i++) {
-            if (isDecreasedQualityItem(items[i])) {
-                if (isOverMinimumQuality(items[i])) {
-                    if (!isLegendaryItem(items[i])) {
-                        items[i].decreaseQuality();
-                    }
+            if (!isLegendaryItem(items[i])) {
+                items[i].passDay();
+            }
+
+            if (isDecreasedQualityItem(items[i]) && isOverMinimumQuality(items[i])) {
+                if (!isLegendaryItem(items[i])) {
+                    items[i].decreaseQuality();
                 }
             } else {
                 if (isLessThanMaximumQuality(items[i])) {
                     items[i].increaseQuality();
 
                     if (items[i].getName().equals(BACKSTAGE)) {
-                        if (items[i].getSellIn() < 11) {
+                        if (items[i].getSellIn() < BACKSTAGE_INCREMENT_2_QUALITY_LESS_THAN_10_DAYS) {
                             if (isLessThanMaximumQuality(items[i])) {
                                 items[i].increaseQuality();
                             }
                         }
 
-                        if (items[i].getSellIn() < 6) {
+                        if (items[i].getSellIn() < BACKSTAGE_INCREMENT_3_QUALITY_LESS_THAN_5_DAYS) {
                             if (isLessThanMaximumQuality(items[i])) {
                                 items[i].increaseQuality();
                             }
                         }
                     }
                 }
-            }
-
-            if (!isLegendaryItem(items[i])) {
-                items[i].passDay();
             }
 
             if (items[i].isPastSellInDate()) {
