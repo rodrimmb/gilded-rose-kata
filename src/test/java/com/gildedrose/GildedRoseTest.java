@@ -1,5 +1,6 @@
 package com.gildedrose;
 
+import com.gildedrose.model.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,7 +9,7 @@ class GildedRoseTest {
 
     @Test
     void foo() {
-        Item[] items = new Item[] { Item.builder().name("foo").sellIn(0).quality(0).build() };
+        Item[] items = new Item[] { DefaultItem.builder().name("foo").sellIn(0).quality(0).build() };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals("foo", app.items[0].getName());
@@ -16,7 +17,7 @@ class GildedRoseTest {
 
     @Test
     void qualityDegrades() {
-        Item[] items = new Item[] { Item.builder().name("foo").sellIn(5).quality(10).build() };
+        Item[] items = new Item[] { DefaultItem.builder().name("foo").sellIn(5).quality(10).build() };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
@@ -28,7 +29,7 @@ class GildedRoseTest {
 
     @Test
     void sellDateHasPassedQualityDegradesTwiceFast() {
-        Item[] items = new Item[] { Item.builder().name("foo").sellIn(0).quality(10).build() };
+        Item[] items = new Item[] { DefaultItem.builder().name("foo").sellIn(0).quality(10).build() };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
@@ -40,7 +41,7 @@ class GildedRoseTest {
 
     @Test
     void sellDateIsNegativeQualityDegradesTwiceFast() {
-        Item[] items = new Item[] { Item.builder().name("foo").sellIn(-1).quality(10).build() };
+        Item[] items = new Item[] { DefaultItem.builder().name("foo").sellIn(-1).quality(10).build() };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
@@ -52,7 +53,7 @@ class GildedRoseTest {
 
     @Test
     void theQualityIsNeverNegative() {
-        Item[] items = new Item[] { Item.builder().name("foo").sellIn(0).quality(0).build() };
+        Item[] items = new Item[] { DefaultItem.builder().name("foo").sellIn(0).quality(0).build() };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
@@ -64,7 +65,7 @@ class GildedRoseTest {
 
     @Test
     void agedBrieIncreasesQualityWhenOlder() {
-        Item[] items = new Item[] { Item.builder().name("Aged Brie").sellIn(5).quality(1).build() };
+        Item[] items = new Item[] { AgedBrieItem.builder().name("Aged Brie").sellIn(5).quality(1).build() };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
@@ -76,7 +77,7 @@ class GildedRoseTest {
 
     @Test
     void qualityNeverMoreThan50() {
-        Item[] items = new Item[] { Item.builder().name("Aged Brie").sellIn(5).quality(50).build() };
+        Item[] items = new Item[] { AgedBrieItem.builder().name("Aged Brie").sellIn(5).quality(50).build() };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
@@ -88,7 +89,7 @@ class GildedRoseTest {
 
     @Test
     void SulfurasNeverDecreasesQuality() {
-        Item[] items = new Item[] { Item.builder().name("Sulfuras, Hand of Ragnaros").sellIn(5).quality(8).build() };
+        Item[] items = new Item[] { SulfurasItem.builder().name("Sulfuras, Hand of Ragnaros").sellIn(5).quality(8).build() };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
@@ -100,7 +101,7 @@ class GildedRoseTest {
 
     @Test
     void backstagePassesIncreasesQualityWhenLeftMoreThan10Days() {
-        Item[] items = new Item[] { Item.builder().name("Backstage passes to a TAFKAL80ETC concert").sellIn(15).quality(8).build() };
+        Item[] items = new Item[] { BackstageItem.builder().name("Backstage passes to a TAFKAL80ETC concert").sellIn(15).quality(8).build() };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
@@ -112,7 +113,7 @@ class GildedRoseTest {
 
     @Test
     void backstagePassesIncreasesQualityBy2WhenLeft10Days() {
-        Item[] items = new Item[] { Item.builder().name("Backstage passes to a TAFKAL80ETC concert").sellIn(10).quality(8).build() };
+        Item[] items = new Item[] { BackstageItem.builder().name("Backstage passes to a TAFKAL80ETC concert").sellIn(10).quality(8).build() };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
@@ -124,7 +125,7 @@ class GildedRoseTest {
 
     @Test
     void backstagePassesIncreasesQualityBy2WhenLeftLessThan10Days() {
-        Item[] items = new Item[] { Item.builder().name("Backstage passes to a TAFKAL80ETC concert").sellIn(8).quality(8).build() };
+        Item[] items = new Item[] { BackstageItem.builder().name("Backstage passes to a TAFKAL80ETC concert").sellIn(8).quality(8).build() };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
@@ -136,7 +137,7 @@ class GildedRoseTest {
 
     @Test
     void backstagePassesIncreasesQualityBy3WhenLeft5Days() {
-        Item[] items = new Item[] { Item.builder().name("Backstage passes to a TAFKAL80ETC concert").sellIn(5).quality(8).build() };
+        Item[] items = new Item[] { BackstageItem.builder().name("Backstage passes to a TAFKAL80ETC concert").sellIn(5).quality(8).build() };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
@@ -148,7 +149,7 @@ class GildedRoseTest {
 
     @Test
     void backstagePassesIncreasesQualityBy3WhenLeftLessThan5Days() {
-        Item[] items = new Item[] { Item.builder().name("Backstage passes to a TAFKAL80ETC concert").sellIn(3).quality(8).build() };
+        Item[] items = new Item[] { BackstageItem.builder().name("Backstage passes to a TAFKAL80ETC concert").sellIn(3).quality(8).build() };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
@@ -160,7 +161,7 @@ class GildedRoseTest {
 
     @Test
     void backstagePassesQualityDrops0AfterConcert() {
-        Item[] items = new Item[] { Item.builder().name("Backstage passes to a TAFKAL80ETC concert").sellIn(0).quality(8).build() };
+        Item[] items = new Item[] { BackstageItem.builder().name("Backstage passes to a TAFKAL80ETC concert").sellIn(0).quality(8).build() };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
@@ -171,8 +172,8 @@ class GildedRoseTest {
     }
 
     @Test
-    void backstagePassesQualityDrops0AfterConcert_minusOne() {
-        Item[] items = new Item[] { Item.builder().name("Backstage passes to a TAFKAL80ETC concert").sellIn(-1).quality(8).build() };
+    void backstagePassesQualityDrops0AfterConcertPastOneDay() {
+        Item[] items = new Item[] { BackstageItem.builder().name("Backstage passes to a TAFKAL80ETC concert").sellIn(-1).quality(8).build() };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
