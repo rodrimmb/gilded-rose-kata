@@ -1,6 +1,9 @@
 package com.gildedrose;
 
 import com.gildedrose.model.*;
+import com.gildedrose.repository.InMemoryItemRepository;
+
+import static java.util.Arrays.asList;
 
 public class TexttestFixture {
     public static void main(String[] args) {
@@ -19,7 +22,9 @@ public class TexttestFixture {
                 //Item.builder().name("Conjured Mana Cake").sellIn(3).quality(6).build()
         };
 
-        GildedRose app = new GildedRose(items);
+        InMemoryItemRepository inMemoryItemRepository = new InMemoryItemRepository(asList(items));
+
+        GildedRose app = new GildedRose(inMemoryItemRepository);
 
         int days = 2;
         if (args.length > 0) {
@@ -29,7 +34,7 @@ public class TexttestFixture {
         for (int i = 0; i < days; i++) {
             System.out.println("-------- day " + i + " --------");
             System.out.println("name, sellIn, quality");
-            for (Item item : items) {
+            for (Item item : inMemoryItemRepository.getAllItems()) {
                 System.out.println(item);
             }
             System.out.println();
