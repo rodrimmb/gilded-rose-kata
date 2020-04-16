@@ -3,8 +3,6 @@ package com.gildedrose;
 import com.gildedrose.model.Item;
 import com.gildedrose.repository.ItemRepository;
 
-import java.util.List;
-
 class GildedRose {
 
     private ItemRepository itemRepository;
@@ -14,9 +12,6 @@ class GildedRose {
     }
 
     public void updateQuality() {
-        List<Item> items = itemRepository.getAllItems();
-        for (Item item : items) {
-            item.update();
-        }
+        itemRepository.getAllItems().forEach(Item::update);
     }
 }
